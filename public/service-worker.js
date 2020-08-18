@@ -1,4 +1,4 @@
-//jshint esversion:6
+
 
 const FILES_TO_CACHE = [
     '/',
