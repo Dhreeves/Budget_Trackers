@@ -25,14 +25,14 @@ self.addEventListener("install", function (evt) {
 
 self.addEventListener("activate", function (evt) {
     evt.waitUntil(
-        caches.keys().then(keyList => (
-        return Promise.all(
-            keyList.map(key => {
-                if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-                    console.log("Removed", key);
-                    return caches.delete(key);
-                }
-            });
+        caches.keys().then(keyList => {
+            Promise.all(
+                keyList.map(key => {
+                    if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+                        console.log("Removed", key);
+                        return caches.delete(key);
+                    }
+                });
         );
 });
 )
@@ -63,7 +63,7 @@ self.addEventListener("fetch", function (evt) {
 
     evt.respondWith(
         fetch(evt.request).catch(function () {
-            return casches.match(evt.request).then(function (response) {
+            return caches.match(evt.request).then(function (response) {
                 if (response) {
                     return response;
                 } else if (evt.request.headers.get("accept").includes("text/html")) {
